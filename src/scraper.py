@@ -1,6 +1,7 @@
 from selenium.webdriver import Firefox
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
+from datetime import datetime
 
 import requests
 from bs4 import BeautifulSoup
@@ -64,5 +65,10 @@ mcmenamins("kennedy", "https://www.mcmenamins.com/kennedy-school/kennedy-school-
 
 browser.quit()
 
-output = template.render(posters=posters)
+
+now = datetime.now()
+# mm/dd/yy H:M:S
+dt_string = now.strftime("%m/%d/%Y %H:%M:%S")
+
+output = template.render(date=dt_string, posters=posters)
 print(output)
