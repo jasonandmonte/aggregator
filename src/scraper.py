@@ -1,6 +1,8 @@
-from selenium.webdriver import Firefox
-from selenium.webdriver.firefox.options import Options
+from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+
 from datetime import datetime
 
 import requests
@@ -8,9 +10,11 @@ from bs4 import BeautifulSoup
 import json
 from jinja2 import Environment, FileSystemLoader
 
+chrome_path = "/usr/local/bin/chromedriver"
+service = Service(chrome_path)
 opts = Options()
 opts.add_argument("--headless")
-browser = Firefox(options=opts)
+browser = webdriver.Chrome(service=service, options=opts)
 
 environment = Environment(loader=FileSystemLoader("templates/"))
 template = environment.get_template("results.html")
