@@ -3,18 +3,30 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 
-from datetime import datetime
+from selenium.webdriver import Firefox
+from selenium.webdriver.firefox.options import Options
 
+from datetime import datetime
+import subprocess
 import requests
 from bs4 import BeautifulSoup
 import json
 from jinja2 import Environment, FileSystemLoader
 
-chrome_path = "/usr/local/bin/chromedriver"
-service = Service(chrome_path)
 opts = Options()
 opts.add_argument("--headless")
-browser = webdriver.Chrome(service=service, options=opts)
+
+machine = str(subprocess.check_output(['uname', '-m']))
+
+browser = None
+if "x86" in machine:
+    # wsl2
+    browser = Firefox(options=opts)
+else:
+    #pi
+    chrome_path = "/usr/local/bin/chromedriver"
+    service = Service(chrome_path)
+    browser = webdriver.Chrome(service=service, options=opts)
 
 environment = Environment(loader=FileSystemLoader("templates/"))
 template = environment.get_template("results.html")
