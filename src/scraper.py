@@ -31,7 +31,7 @@ else:
     browser = webdriver.Chrome(service=service, options=opts)
 
 environment = Environment(loader=FileSystemLoader("templates/"))
-template = environment.get_template("results.html")
+
 
 posters = {
     "laurelhurst": {
@@ -40,6 +40,10 @@ posters = {
         },
     "bagdad": [],
     "kennedy": [],
+    "portland_art": {
+        "title": "",
+        "img": ""
+    }
 }
 
 def laurelhurst():
@@ -77,16 +81,44 @@ def mcmenamins(key: str, url: str):
         if "Media/Poster" in src and src not in posters[key]:
             posters[key].append(src)
 
-laurelhurst()
-mcmenamins("bagdad", "https://www.mcmenamins.com/bagdad-theater-pub/now-playing")
-mcmenamins("kennedy", "https://www.mcmenamins.com/kennedy-school/kennedy-school-theater/now-playing")
+def portland_art():
+    URL = "https://portlandartmuseum.org/exhibitions/"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
+    }
 
-browser.quit()
+    page = requests.get(URL, headers=headers)
 
+    soup = BeautifulSoup(page.content, "html.parser")
+    divs = soup.find_all("div", class_="event-card__featured")
+    img = divs[0].find("img")["src"]
+    title = divs[0].find("h3", class_="featured-card__title")
 
-now = datetime.now()
-# mm/dd/yy H:M:S
-dt_string = now.strftime("%m/%d/%Y %H:%M:%S")
+    posters["portland_art"]["title"] = title.get_text(strip=True)
+    posters["portland_art"]["img"] = img
+    
 
-output = template.render(date=dt_string, posters=posters)
-print(output)
+def main():
+    laurelhurst()
+    mcmenamins("bagdad", "https://www.mcmenamins.com/bagdad-theater-pub/now-playing")
+    mcmenamins("kennedy", "https://www.mcmenamins.com/kennedy-school/kennedy-school-theater/now-playing")
+
+    portland_art()
+    
+    # browser.quit()
+
+    now = datetime.now()
+    # mm/dd/yy H:M:S
+    dt_string = now.strftime("%m/%d/%Y %H:%M:%S")
+    
+    template = environment.get_template("results.html")
+    output = template.render(date=dt_string, posters=posters)
+    with open('index.html', 'w') as writer:
+        writer.write(output)
+    
+    template = environment.get_template("events.html")
+    output = template.render(date=dt_string, posters=posters)
+    with open('events.html', 'w') as writer:
+        writer.write(output)
+
+main()
