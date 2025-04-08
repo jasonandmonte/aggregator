@@ -4,7 +4,7 @@ cd /home/jasonandmonte/projects/aggregator
 git pull
 
 echo "Starting scrape"
-/home/jasonandmonte/projects/aggregator/env/bin/python3 src/scraper.py > ./index.html
+/home/jasonandmonte/projects/aggregator/env/bin/python3 src/scraper.py
 echo "Committing"
 
 git add .
