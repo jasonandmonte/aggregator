@@ -28,9 +28,24 @@
       </nav>
       <!-- OMSI -->
       <section>
-        <h2><a href="https://omsi.edu/whats-on/" target="_blank">OMSI: After Dark</a></h2>
+        <h2><a href="https://omsi.edu/whats-on/" target="_blank">OMSI</a></h2>
         <article>
-          <header><h3>TODO</h3></header>
+          <header><h3>After Dark</h3></header>
+          {% for event in posters["omsi"]["after_dark"] %}
+            <hgroup>
+              <h4>{{event[1]}}</h4>
+              <small>{{event[0]}}</small>
+            </hgroup>
+          {% endfor %}
+        </article>
+        <article>
+          <header><h3>Science Pub</h3></header>
+          {% for event in posters["omsi"]["pub"] %}
+            <hgroup>
+              <h4>{{event[1]}}</h4>
+              <small>{{event[0]}}</small>
+            </hgroup>
+          {% endfor %}
         </article>
       </section>
       <!-- Science on Tap -->

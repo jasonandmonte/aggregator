@@ -40,6 +40,10 @@ posters = {
         },
     "bagdad": [],
     "kennedy": [],
+    "omsi": {
+        "after_dark": [],
+        "pub": [],
+    },
     "portland_art": {
         "title": "",
         "img": ""
@@ -80,6 +84,27 @@ def mcmenamins(key: str, url: str):
         # ignore random site images that are in the main content section
         if "Media/Poster" in src and src not in posters[key]:
             posters[key].append(src)
+            
+
+#-------------------------------------------------------------------------------
+# Events
+#-------------------------------------------------------------------------------
+
+def omsi():
+    URL = "https://omsi.edu/whats-on/"
+    browser.get(URL)
+    browser.implicitly_wait(5)
+    cards = browser.find_elements(By.CLASS_NAME, "omsi-card__body")
+    for card in cards:
+        title_list = card.find_elements(By.TAG_NAME, "h4")
+        event = (title_list[0].get_attribute("textContent"), title_list[1].get_attribute("textContent"))
+        if "Dark" in event[1]:
+            # I only want the closest after dark to save space
+            if len(posters["omsi"]["after_dark"]) < 1:
+                posters["omsi"]["after_dark"].append(event)
+        elif "Pub" in event[1]:
+            posters["omsi"]["pub"].append(event)
+    
 
 def portland_art():
     URL = "https://portlandartmuseum.org/exhibitions/"
@@ -103,9 +128,10 @@ def main():
     mcmenamins("bagdad", "https://www.mcmenamins.com/bagdad-theater-pub/now-playing")
     mcmenamins("kennedy", "https://www.mcmenamins.com/kennedy-school/kennedy-school-theater/now-playing")
 
+    omsi()
     portland_art()
     
-    # browser.quit()
+    browser.quit()
 
     now = datetime.now()
     # mm/dd/yy H:M:S
