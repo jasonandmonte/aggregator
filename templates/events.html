@@ -66,7 +66,14 @@
       <section>
         <h2><a href="https://www.powells.com/events-update" target="_blank">Powell's Events</a></h2>
         <article>
-          <header><h3>TODO</h3></header>
+          <fieldset role="group">
+            {% for card in posters["powells"] %}
+            <figure>
+              <img style="height: 220px; width: 220px;" src="{{card.0}}"/>
+              <figcaption>{{card.1}} | {{card.2}} | {{card.3}}</figcaption>
+            </figure>
+            {% endfor %}
+          </fieldset>
         </article>
       </section>
       <!-- Portland Art Museum -->

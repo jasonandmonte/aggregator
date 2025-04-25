@@ -47,7 +47,8 @@ posters = {
     "portland_art": {
         "title": "",
         "img": ""
-    }
+    },
+    "powells": []
 }
 
 def laurelhurst():
@@ -90,6 +91,38 @@ def mcmenamins(key: str, url: str):
 # Events
 #-------------------------------------------------------------------------------
 
+def powells():
+    URL = "https://www.powells.com/events"
+    browser.get(URL)
+    browser.implicitly_wait(5)
+    browser.execute_script("window.scrollBy(0, 500);")
+    browser.implicitly_wait(5)
+    browser.execute_script("window.scrollBy(0, 500);")
+    browser.implicitly_wait(5)
+    cards = browser.find_elements(By.CLASS_NAME, "tw-p-0")
+
+    # We want cards in the future
+    for x in range(12,15,1):
+        card = cards[x]
+        img = card.find_element(By.TAG_NAME, 'img')
+        poster = img.get_attribute('src')
+        title = card.find_element(By.TAG_NAME, "h3").get_attribute("textContent")
+        date = card.find_element(By.CSS_SELECTOR, '[data-test="event-date"]').get_attribute("textContent")
+        location = card.find_element(By.CSS_SELECTOR, '[data-test="event-location"]').get_attribute("textContent")
+        
+        if "Portland, OR 97209" in location:
+            location = "City of Books"
+        elif "Beaverton, OR 97005" in location:
+            location = "Cedar Hills"
+        else:
+            location = "Oregon"
+
+        posters["powells"].append((poster,title,date,location))
+        
+
+
+        
+
 def omsi():
     URL = "https://omsi.edu/whats-on/"
     browser.get(URL)
@@ -123,11 +156,18 @@ def portland_art():
     posters["portland_art"]["img"] = img
     
 
+def _main():
+    powells()
+    browser.quit()
+    
+
 def main():
     laurelhurst()
     mcmenamins("bagdad", "https://www.mcmenamins.com/bagdad-theater-pub/now-playing")
     mcmenamins("kennedy", "https://www.mcmenamins.com/kennedy-school/kennedy-school-theater/now-playing")
 
+    # Events
+    powells()
     omsi()
     portland_art()
     
