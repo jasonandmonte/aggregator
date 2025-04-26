@@ -68,18 +68,26 @@
         <article>
           <fieldset role="group">
             {% for card in posters["powells"][:2] %}
-            <img style="height: 220px; width: 220px;" src="{{card.0}}"/>
-            <p>
-              {{card.1}} | {{card.2}} | {{card.3}}
-            </p>
+            <figure style="text-align: center;">
+              <img style="height: 220px; width: 220px;" src="{{card.0}}"/>
+              <figcaption style="margin-top: 8px;">
+                <div>{{card.1}}</div>
+                <div>{{card.2}}</div>
+                <div>{{card.3}}</div>
+              </figcaption>
+            </figure>
             {% endfor %}
           </fieldset>
           <fieldset role="group">
             {% for card in posters["powells"][2:] %}
-            <img style="height: 220px; width: 220px;" src="{{card.0}}"/>
-            <p>
-              {{card.1}} | {{card.2}} | {{card.3}}
-            </p>
+            <figure style="text-align: center;">
+              <img style="height: 220px; width: 220px;" src="{{card.0}}"/>
+              <figcaption style="margin-top: 8px;">
+                <div>{{card.1}}</div>
+                <div>{{card.2}}</div>
+                <div>{{card.3}}</div>
+              </figcaption>
+            </figure>
             {% endfor %}
           </fieldset>
         </article>
