@@ -59,7 +59,9 @@
       <section>
         <h2><a href="https://www.moviemadness.org/calendar/" target="_blank">Movie Madness</a></h2>
         <article>
-          <header><h3>TODO</h3></header>
+          {% for poster_url in posters["madness"] %}
+          <img style="height: 300px; width: 300px;" src="{{poster_url}}">
+          {% endfor %}
         </article>
       </section>
       <!-- Powell's -->
