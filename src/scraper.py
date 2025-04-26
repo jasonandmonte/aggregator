@@ -102,7 +102,7 @@ def powells():
     cards = browser.find_elements(By.CLASS_NAME, "tw-p-0")
 
     # We want cards in the future
-    for x in range(12,15,1):
+    for x in range(12,16,1):
         card = cards[x]
         img = card.find_element(By.TAG_NAME, 'img')
         poster = img.get_attribute('src')
@@ -118,9 +118,6 @@ def powells():
             location = "Oregon"
 
         posters["powells"].append((poster,title,date,location))
-        
-
-
         
 
 def omsi():

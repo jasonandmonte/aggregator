@@ -67,11 +67,19 @@
         <h2><a href="https://www.powells.com/events-update" target="_blank">Powell's Events</a></h2>
         <article>
           <fieldset role="group">
-            {% for card in posters["powells"] %}
-            <figure>
-              <img style="height: 220px; width: 220px;" src="{{card.0}}"/>
-              <figcaption>{{card.1}} | {{card.2}} | {{card.3}}</figcaption>
-            </figure>
+            {% for card in posters["powells"][:2] %}
+            <img style="height: 220px; width: 220px;" src="{{card.0}}"/>
+            <p>
+              {{card.1}} | {{card.2}} | {{card.3}}
+            </p>
+            {% endfor %}
+          </fieldset>
+          <fieldset role="group">
+            {% for card in posters["powells"][2:] %}
+            <img style="height: 220px; width: 220px;" src="{{card.0}}"/>
+            <p>
+              {{card.1}} | {{card.2}} | {{card.3}}
+            </p>
             {% endfor %}
           </fieldset>
         </article>
