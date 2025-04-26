@@ -48,7 +48,8 @@ posters = {
         "title": "",
         "img": ""
     },
-    "powells": []
+    "powells": [],
+    "madness": []
 }
 
 def laurelhurst():
@@ -153,6 +154,21 @@ def portland_art():
     posters["portland_art"]["img"] = img
     
 
+def movie_madness():
+    # document.getElementsByTagName("article")[0].getElementsByTagName("img")[0].src
+    URL = "https://www.moviemadness.org/calendar/"
+    browser.get(URL)
+    browser.implicitly_wait(5)
+    
+    cards = browser.find_elements(By.TAG_NAME, "article")
+    # TODO: Ingest all cards
+    card = cards[0]
+    img = card.find_element(By.TAG_NAME, 'img')
+    poster = img.get_attribute('src')
+    posters["madness"].append(poster)
+    
+    
+
 def _main():
     powells()
     browser.quit()
@@ -167,6 +183,7 @@ def main():
     powells()
     omsi()
     portland_art()
+    movie_madness()
     
     browser.quit()
 
