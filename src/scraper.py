@@ -155,7 +155,6 @@ def portland_art():
     
 
 def movie_madness():
-    # document.getElementsByTagName("article")[0].getElementsByTagName("img")[0].src
     URL = "https://www.moviemadness.org/calendar/"
     browser.get(URL)
     browser.implicitly_wait(5)
@@ -166,11 +165,17 @@ def movie_madness():
     img = card.find_element(By.TAG_NAME, 'img')
     poster = img.get_attribute('src')
     posters["madness"].append(poster)
-    
+
+def cinemagic():
+    URL = "https://www.thecinemagictheater.com/coming-attractions"
+    browser.get(URL)
+    browser.implicitly_wait(5)
+    browser.save_screenshot("cinemagic.png")
+
     
 
 def _main():
-    powells()
+    cinemagic()
     browser.quit()
     
 
@@ -184,6 +189,7 @@ def main():
     omsi()
     portland_art()
     movie_madness()
+    cinemagic()
     
     browser.quit()
 
