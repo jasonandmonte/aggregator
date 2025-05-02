@@ -96,9 +96,9 @@ def powells():
     URL = "https://www.powells.com/events"
     browser.get(URL)
     browser.implicitly_wait(5)
-    browser.execute_script("window.scrollBy(0, 500);")
+    browser.execute_script("window.scrollBy(0, 1000);")
     browser.implicitly_wait(5)
-    browser.execute_script("window.scrollBy(0, 500);")
+    browser.execute_script("window.scrollBy(0, 1000);")
     browser.implicitly_wait(5)
     cards = browser.find_elements(By.CLASS_NAME, "tw-p-0")
 
@@ -170,12 +170,12 @@ def cinemagic():
     URL = "https://www.thecinemagictheater.com/coming-attractions"
     browser.get(URL)
     browser.implicitly_wait(5)
-    browser.save_screenshot("cinemagic.png")
+    browser.save_screenshot("assets/cinemagic.png")
 
     
 
 def _main():
-    cinemagic()
+    powells()
     browser.quit()
     
 
