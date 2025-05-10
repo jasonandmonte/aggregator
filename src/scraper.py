@@ -185,7 +185,7 @@ def main():
     mcmenamins("kennedy", "https://www.mcmenamins.com/kennedy-school/kennedy-school-theater/now-playing")
 
     # Events
-    powells()
+#    powells()
     omsi()
     portland_art()
     movie_madness()
