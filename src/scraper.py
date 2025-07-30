@@ -52,6 +52,22 @@ posters = {
     "madness": []
 }
 
+
+def cinemagic():
+    URL = "https://www.thecinemagictheater.com/coming-attractions"
+    browser.get(URL)
+    browser.implicitly_wait(5)
+    # remove header
+    section = browser.find_elements(By.CLASS_NAME, "page-section")[0]
+    browser.execute_script("arguments[0].remove();", section)
+    browser.implicitly_wait(5)
+    header = browser.find_elements(By.CLASS_NAME, "header-announcement-bar-wrapper")[0]
+    browser.execute_script("arguments[0].remove();", header)
+    
+    browser.implicitly_wait(5)
+    browser.save_screenshot("assets/cinemagic.png")
+
+
 def laurelhurst():
     URL = "https://www.laurelhursttheater.com/"
     page = requests.get(URL)
@@ -166,16 +182,10 @@ def movie_madness():
     poster = img.get_attribute('src')
     posters["madness"].append(poster)
 
-def cinemagic():
-    URL = "https://www.thecinemagictheater.com/coming-attractions"
-    browser.get(URL)
-    browser.implicitly_wait(5)
-    browser.save_screenshot("assets/cinemagic.png")
 
-    
 
 def _main():
-    powells()
+    cinemagic()
     browser.quit()
     
 
