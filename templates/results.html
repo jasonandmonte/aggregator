@@ -33,33 +33,27 @@
       <section>
         <h2><a href="https://www.laurelhursttheater.com/" target="_blank">Laurelhurst Theater</a></h2>
         <article>
-          <header><h3>Now Playing</h3></header>
           {% for poster_url in posters["laurelhurst"]["now"] %}
             <img style="height: 220px; width: 150px;" src="{{poster_url}}">
           {% endfor %}
-          <!-- <footer><h3>Coming Soon</h3</footer> -->
         </article>
       </section>
       <!-- bagdad -->
       <section>
         <h2><a href="https://www.mcmenamins.com/bagdad-theater-pub" target="_blank">Bagdad Theater</a></h2>
         <article>
-          <header><h3>Now Playing</h3></header>
           {% for poster_url in posters["bagdad"] %}
             <img style="height: 220px; width: 150px;" src="{{poster_url}}">
           {% endfor %}
-          <!-- <footer><h3>Coming Soon</h3</footer> -->
         </article>
       </section>
       <!-- kennedy -->
       <section>
         <h2><a href="https://www.mcmenamins.com/kennedy-school/kennedy-school-theater/now-playing" target="_blank">Kennedy School Theater</a></h2>
         <article>
-          <header><h3>Now Playing</h3></header>
           {% for poster_url in posters["kennedy"] %}
             <img style="height: 220px; width: 150px;" src="{{poster_url}}">
           {% endfor %}
-          <!-- <footer><h3>Coming Soon</h3</footer> -->
         </article>
       </section>
       <!-- cinemagic -->
