@@ -1,5 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.actions.wheel_input import ScrollOrigin
+from selenium.webdriver.common.action_chains import ActionChains
 
 from datetime import datetime
 import subprocess
@@ -49,7 +51,8 @@ posters = {
         "img": ""
     },
     "powells": [],
-    "madness": []
+    "madness": [],
+    "tap": ""
 }
 
 
@@ -67,6 +70,44 @@ def cinemagic():
     browser.implicitly_wait(5)
     browser.save_screenshot("assets/cinemagic.png")
 
+def hollywood():
+    # FIXME: Can we get past the 403?
+    URL = "https://hollywoodtheatre.org/wp-json/gecko-theme/v1/calendar-events?start_date=2025-07-30&end_date=2025-08-03&_locale=user"
+    params = {
+        "start_date": "2025-07-30",
+        "end_date": "2025-08-03",
+        "_locale": "user"
+    }
+    headers = {
+        "accept": "application/json, */*;q=0.1",
+        "accept-language": "en-US,en;q=0.9,ru;q=0.8",
+        "priority": "u=1, i",
+        "sec-ch-ua": "\"Not)A;Brand\";v=\"8\", \"Chromium\";v=\"138\", \"Google Chrome\";v=\"138\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-origin",
+        "x-wp-nonce": "601208946d",
+        "referer": "https://hollywoodtheatre.org/"
+    }
+
+    
+    response = requests.get(URL, headers=headers, params=params)
+    # data = response.json()
+    print(response)
+    
+    # URL = "https://hollywoodtheatre.org/"
+    # browser.get(URL)
+    # browser.implicitly_wait(5)
+
+    # actions = ActionChains(browser)
+    # actions.scroll_by_amount(0, 2000).perform()
+    # browser.implicitly_wait(2)
+
+    # browser.implicitly_wait(5)
+    # browser.save_screenshot("assets/hollywood.png")
+    
 
 def laurelhurst():
     URL = "https://www.laurelhursttheater.com/"
@@ -112,14 +153,10 @@ def powells():
     URL = "https://www.powells.com/events"
     browser.get(URL)
     browser.implicitly_wait(5)
-    browser.execute_script("window.scrollBy(0, 1000);")
-    browser.implicitly_wait(5)
-    browser.execute_script("window.scrollBy(0, 1000);")
-    browser.implicitly_wait(5)
     cards = browser.find_elements(By.CLASS_NAME, "tw-p-0")
 
     # We want cards in the future
-    for x in range(12,16,1):
+    for x in range(3,6,1):
         card = cards[x]
         img = card.find_element(By.TAG_NAME, 'img')
         poster = img.get_attribute('src')
@@ -182,10 +219,17 @@ def movie_madness():
     poster = img.get_attribute('src')
     posters["madness"].append(poster)
 
-
+def science_tap():
+    URL = "https://www.scienceontaporwa.org/"
+    browser.get(URL)
+    browser.implicitly_wait(5)
+    
+    event = browser.find_elements(By.CLASS_NAME, "event-tile")[0]
+    html = event.get_attribute("outerHTML")
+    posters["tap"] = html
 
 def _main():
-    cinemagic()
+    
     browser.quit()
     
 
@@ -195,11 +239,12 @@ def main():
     mcmenamins("kennedy", "https://www.mcmenamins.com/kennedy-school/kennedy-school-theater/now-playing")
 
     # Events
-#    powells()
+    powells()
     omsi()
     portland_art()
     movie_madness()
     cinemagic()
+    science_tap()
     
     browser.quit()
 
