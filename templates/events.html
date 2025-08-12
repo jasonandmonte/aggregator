@@ -102,7 +102,9 @@
         <h2><a href="https://portlandartmuseum.org/exhibitions/" target="_blank">Portland Art Museum</a></h2>
         <article>
           <header><h3>{{posters["portland_art"]["title"]}}</h3></header>
-          <img style="height: 220px; width: 250px;" src="{{posters['portland_art']['img']}}">
+          {% if posters["portland_art"]["img"] %}
+            <img style="height: 220px; width: 250px;" src="{{posters['portland_art']['img']}}">
+          {% endif %}
         </article>
       </section>
     </main>

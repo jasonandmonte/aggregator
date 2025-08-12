@@ -195,17 +195,21 @@ def portland_art():
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
     }
+    try:
+        page = requests.get(URL, headers=headers)
 
-    page = requests.get(URL, headers=headers)
+        soup = BeautifulSoup(page.content, "html.parser")
+        divs = soup.find_all("div", class_="event-card__featured")
+        img = divs[0].find("img")["src"]
+        title = divs[0].find("h3", class_="featured-card__title")
 
-    soup = BeautifulSoup(page.content, "html.parser")
-    divs = soup.find_all("div", class_="event-card__featured")
-    img = divs[0].find("img")["src"]
-    title = divs[0].find("h3", class_="featured-card__title")
-
-    posters["portland_art"]["title"] = title.get_text(strip=True)
-    posters["portland_art"]["img"] = img
-    
+        posters["portland_art"]["title"] = title.get_text(strip=True)
+        posters["portland_art"]["img"] = img
+        
+    except requests.RequestException as e:
+        print(f"[Network error fetching Portland Art Museum data] {e}")
+    except Exception as _:
+        posters["portland_art"]["title"] = "No special exhibition currently on view"
 
 def movie_madness():
     URL = "https://www.moviemadness.org/calendar/"
