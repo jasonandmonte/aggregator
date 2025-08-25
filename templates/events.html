@@ -62,9 +62,11 @@
       <section>
         <h2><a href="https://www.moviemadness.org/calendar/" target="_blank">Movie Madness</a></h2>
         <article>
-          {% for poster_url in posters["madness"] %}
-          <img style="max-height: 400px;" src="{{poster_url}}">
-          {% endfor %}
+          {% if posters["madness"] %}
+            {% for poster_url in posters["madness"] %}
+            <img style="max-height: 400px;" src="{{poster_url}}">
+            {% endfor %}
+          {% endif %}
         </article>
       </section>
       <!-- Powell's -->

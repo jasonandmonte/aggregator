@@ -212,16 +212,22 @@ def portland_art():
         posters["portland_art"]["title"] = "No special exhibition currently on view"
 
 def movie_madness():
-    URL = "https://www.moviemadness.org/calendar/"
-    browser.get(URL)
-    browser.implicitly_wait(5)
-    
-    cards = browser.find_elements(By.TAG_NAME, "article")
-    # TODO: Ingest all cards
-    card = cards[0]
-    img = card.find_element(By.TAG_NAME, 'img')
-    poster = img.get_attribute('src')
-    posters["madness"].append(poster)
+    try:
+        URL = "https://www.moviemadness.org/calendar/"
+        browser.get(URL)
+        browser.implicitly_wait(5)
+        
+        cards = browser.find_elements(By.TAG_NAME, "article")
+        # TODO: Ingest all cards
+        card = cards[0]
+        img = card.find_element(By.TAG_NAME, 'img')
+        poster = img.get_attribute('src')
+        posters["madness"].append(poster)
+    except requests.RequestException as e:
+        print(f"[Network error fetching Movie Madness data] {e}")
+    except Exception as _:
+        # no events
+        pass
 
 def science_tap():
     URL = "https://www.scienceontaporwa.org/"
