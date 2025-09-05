@@ -176,19 +176,24 @@ def powells():
 
 def omsi():
     URL = "https://omsi.edu/whats-on/"
-    browser.get(URL)
-    browser.implicitly_wait(5)
-    cards = browser.find_elements(By.CLASS_NAME, "omsi-card__body")
-    for card in cards:
-        title_list = card.find_elements(By.TAG_NAME, "h4")
-        event = (title_list[0].get_attribute("textContent"), title_list[1].get_attribute("textContent"))
-        if "Dark" in event[1]:
-            # I only want the closest after dark to save space
-            if len(posters["omsi"]["after_dark"]) < 1:
-                posters["omsi"]["after_dark"].append(event)
-        elif "Pub" in event[1]:
-            posters["omsi"]["pub"].append(event)
-    
+    try:
+        browser.get(URL)
+        browser.implicitly_wait(5)
+        cards = browser.find_elements(By.CLASS_NAME, "omsi-card__body")
+        for card in cards:
+            title_list = card.find_elements(By.TAG_NAME, "h4")
+            event = (title_list[0].get_attribute("textContent"), title_list[1].get_attribute("textContent"))
+            if "Dark" in event[1]:
+                # I only want the closest after dark to save space
+                if len(posters["omsi"]["after_dark"]) < 1:
+                    posters["omsi"]["after_dark"].append(event)
+            elif "Pub" in event[1]:
+                posters["omsi"]["pub"].append(event)
+    except requests.RequestException as e:
+        print(f"[Network error fetching OMSI data] {e}")
+    except Exception as e:
+        print(e)
+        posters["omsi"]["pub"] = ["Failed to process omsi data",""]
 
 def portland_art():
     URL = "https://portlandartmuseum.org/exhibitions/"
@@ -239,7 +244,7 @@ def science_tap():
     posters["tap"] = html
 
 def _main():
-    
+    omsi()
     browser.quit()
     
 
