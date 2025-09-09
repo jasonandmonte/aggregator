@@ -153,26 +153,31 @@ def powells():
     URL = "https://www.powells.com/events"
     browser.get(URL)
     browser.implicitly_wait(5)
-    cards = browser.find_elements(By.CLASS_NAME, "tw-p-0")
+    try:
+        cards = browser.find_elements(By.CLASS_NAME, "tw-p-0")
 
-    # We want cards in the future
-    for x in range(3,6,1):
-        card = cards[x]
-        img = card.find_element(By.TAG_NAME, 'img')
-        poster = img.get_attribute('src')
-        title = card.find_element(By.TAG_NAME, "h3").get_attribute("textContent")
-        date = card.find_element(By.CSS_SELECTOR, '[data-test="event-date"]').get_attribute("textContent")
-        location = card.find_element(By.CSS_SELECTOR, '[data-test="event-location"]').get_attribute("textContent")
-        
-        if "Portland, OR 97209" in location:
-            location = "City of Books"
-        elif "Beaverton, OR 97005" in location:
-            location = "Cedar Hills"
-        else:
-            location = "Oregon"
+        # We want cards in the future
+        for x in range(3,6,1):
+            card = cards[x]
+            img = card.find_element(By.TAG_NAME, 'img')
+            poster = img.get_attribute('src')
+            title = card.find_element(By.TAG_NAME, "h3").get_attribute("textContent")
+            date = card.find_element(By.CSS_SELECTOR, '[data-test="event-date"]').get_attribute("textContent")
+            location = card.find_element(By.CSS_SELECTOR, '[data-test="event-location"]').get_attribute("textContent")
+            
+            if "Portland, OR 97209" in location:
+                location = "City of Books"
+            elif "Beaverton, OR 97005" in location:
+                location = "Cedar Hills"
+            else:
+                location = "Oregon"
 
-        posters["powells"].append((poster,title,date,location))
-        
+            posters["powells"].append((poster,title,date,location))
+    except requests.RequestException as e:
+        print(f"[Network error fetching Powells data] {e}")
+    except Exception as e:
+        print(e)
+        posters["powells"].append(("","Failed to retreive events","",""))
 
 def omsi():
     URL = "https://omsi.edu/whats-on/"
@@ -244,7 +249,7 @@ def science_tap():
     posters["tap"] = html
 
 def _main():
-    omsi()
+    powells()
     browser.quit()
     
 
