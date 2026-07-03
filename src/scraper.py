@@ -254,10 +254,13 @@ def _main():
     
 
 def main():
+    
     laurelhurst()
-    mcmenamins("bagdad", "https://www.mcmenamins.com/bagdad-theater-pub/now-playing")
-    mcmenamins("kennedy", "https://www.mcmenamins.com/kennedy-school/kennedy-school-theater/now-playing")
-
+    try:
+        mcmenamins("bagdad", "https://www.mcmenamins.com/bagdad-theater-pub/now-playing")
+        mcmenamins("kennedy", "https://www.mcmenamins.com/kennedy-school/kennedy-school-theater/now-playing")
+    except:
+        pass
     # Events
     powells()
     omsi()
