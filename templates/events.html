@@ -36,8 +36,9 @@
           <header><h3>After Dark</h3></header>
           {% for event in posters["omsi"]["after_dark"] %}
             <hgroup>
-              <h4>{{event[1]}}</h4>
-              <small>{{event[0]}}</small>
+              <img style="height: 201px; width: 358px;" src="{{event.1}}"/>
+              <h4>{{event[0]}}</h4>
+              <small>{{event[2]}}</small>
             </hgroup>
           {% endfor %}
         </article>
@@ -45,8 +46,9 @@
           <header><h3>Science Pub</h3></header>
           {% for event in posters["omsi"]["pub"] %}
             <hgroup>
-              <h4>{{event[1]}}</h4>
-              <small>{{event[0]}}</small>
+              <img style="height: 201px; width: 358px;" src="{{event.1}}"/>
+              <h4>{{event[0]}}</h4>
+              <small>{{event[2]}}</small>
             </hgroup>
           {% endfor %}
         </article>

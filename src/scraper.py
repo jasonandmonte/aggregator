@@ -187,20 +187,28 @@ def omsi():
         cards = browser.find_elements(By.CLASS_NAME, "omsi-card")
         for card in cards:
             title = card.find_elements(By.TAG_NAME, "h4")
+            date = card.find_elements(By.TAG_NAME, "h3")
             image = card.find_elements(By.TAG_NAME, "figure")
+            
             # extract url from style attribute
             style = image[0].get_attribute("style")
             start = style.find("url(") + len("url(")
             end = style.find(")", start)
             url = style[start:end].strip('"\'')
             
-            event = (title[0].get_attribute("textContent"), url)
+            event = (
+                title[0].get_attribute("textContent"), 
+                url, 
+                date[0].get_attribute("textContent")
+            )
             if "Dark" in event[0]:
                 # I only want the closest after dark to save space
                 if len(posters["omsi"]["after_dark"]) < 1:
                     posters["omsi"]["after_dark"].append(event)
-            elif "Pub" in event[1]:
-                posters["omsi"]["pub"].append(event)
+            elif "Pub" in event[0]:
+                if len(posters["omsi"]["pub"]) < 2:
+                    posters["omsi"]["pub"].append(event)
+
     except requests.RequestException as e:
         print(f"[Network error fetching OMSI data] {e}")
     except Exception as e:
