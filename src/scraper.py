@@ -184,11 +184,18 @@ def omsi():
     try:
         browser.get(URL)
         browser.implicitly_wait(5)
-        cards = browser.find_elements(By.CLASS_NAME, "omsi-card__body")
+        cards = browser.find_elements(By.CLASS_NAME, "omsi-card")
         for card in cards:
-            title_list = card.find_elements(By.TAG_NAME, "h4")
-            event = (title_list[0].get_attribute("textContent"), title_list[1].get_attribute("textContent"))
-            if "Dark" in event[1]:
+            title = card.find_elements(By.TAG_NAME, "h4")
+            image = card.find_elements(By.TAG_NAME, "figure")
+            # extract url from style attribute
+            style = image[0].get_attribute("style")
+            start = style.find("url(") + len("url(")
+            end = style.find(")", start)
+            url = style[start:end].strip('"\'')
+            
+            event = (title[0].get_attribute("textContent"), url)
+            if "Dark" in event[0]:
                 # I only want the closest after dark to save space
                 if len(posters["omsi"]["after_dark"]) < 1:
                     posters["omsi"]["after_dark"].append(event)
@@ -249,12 +256,10 @@ def science_tap():
     posters["tap"] = html
 
 def _main():
-    powells()
+    omsi()
     browser.quit()
-    
 
 def main():
-    
     laurelhurst()
     try:
         mcmenamins("bagdad", "https://www.mcmenamins.com/bagdad-theater-pub/now-playing")
